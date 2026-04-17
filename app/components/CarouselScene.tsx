@@ -59,10 +59,12 @@ export default function CarouselScene() {
   const isMobile = useSyncExternalStore(subscribeMobile, getMobileSnapshot, serverFalse);
   const reducedMotion = useSyncExternalStore(subscribeReducedMotion, getReducedMotionSnapshot, serverFalse);
 
-  // Reset to center card when theme changes
-  useEffect(() => {
+  // Reset to center card when theme changes (state-based render-time derivation)
+  const [prevTheme, setPrevTheme] = useState(theme);
+  if (prevTheme !== theme) {
+    setPrevTheme(theme);
     setActiveIndex(Math.floor(cards.length / 2));
-  }, [theme, cards.length]);
+  }
 
   useEffect(() => {
     const timer = setTimeout(() => setHasLoaded(true), 100);

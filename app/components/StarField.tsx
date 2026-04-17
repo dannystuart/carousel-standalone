@@ -2,13 +2,16 @@
 
 import { useRef, useEffect } from "react";
 
-/**
- * Canvas-based star field for the Cosmos theme.
- * Renders ~200 tiny white dots at random positions with varying opacity.
- * Static (no animation) — purely decorative.
- */
+interface Star {
+  x: number; // 0-1 normalized
+  y: number; // 0-1 normalized
+  radius: number;
+  opacity: number;
+}
+
 export default function StarField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const starsRef = useRef<Star[]>([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -16,6 +19,16 @@ export default function StarField() {
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+
+    // Generate stars once with normalized coordinates
+    if (starsRef.current.length === 0) {
+      starsRef.current = Array.from({ length: 200 }, () => ({
+        x: Math.random(),
+        y: Math.random(),
+        radius: Math.random() * 1.2 + 0.3,
+        opacity: Math.random() * 0.5 + 0.3,
+      }));
+    }
 
     function draw() {
       const dpr = window.devicePixelRatio || 1;
@@ -27,16 +40,16 @@ export default function StarField() {
 
       ctx!.clearRect(0, 0, canvas!.width, canvas!.height);
 
-      const starCount = 200;
-      for (let i = 0; i < starCount; i++) {
-        const x = Math.random() * window.innerWidth;
-        const y = Math.random() * window.innerHeight;
-        const radius = Math.random() * 1.2 + 0.3;
-        const opacity = Math.random() * 0.5 + 0.3; // 0.3–0.8
-
+      for (const star of starsRef.current) {
         ctx!.beginPath();
-        ctx!.arc(x, y, radius, 0, Math.PI * 2);
-        ctx!.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+        ctx!.arc(
+          star.x * window.innerWidth,
+          star.y * window.innerHeight,
+          star.radius,
+          0,
+          Math.PI * 2
+        );
+        ctx!.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
         ctx!.fill();
       }
     }

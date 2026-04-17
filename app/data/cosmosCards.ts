@@ -10,6 +10,7 @@ export const cosmosCards: CardItem[] = [
     brand: "Void",
     tags: ["Dark", "Ambient"],
     gradient: "linear-gradient(135deg, #1e3a5f 0%, #0a0a2e 50%, #000000 100%)",
+    video: "/videos/video-1.mp4",
   },
   {
     id: 102,
@@ -20,6 +21,7 @@ export const cosmosCards: CardItem[] = [
     brand: "Void",
     tags: ["Deep", "Minimal"],
     gradient: "linear-gradient(135deg, #134e4a 0%, #042f2e 50%, #000000 100%)",
+    video: "/videos/video-2.mp4",
   },
   {
     id: 103,
@@ -30,6 +32,7 @@ export const cosmosCards: CardItem[] = [
     brand: "Void",
     tags: ["Spectral", "Strange"],
     gradient: "linear-gradient(135deg, #4c1d95 0%, #1e1b4b 50%, #000000 100%)",
+    video: "/videos/video-3.mp4",
   },
   {
     id: 104,
@@ -40,6 +43,7 @@ export const cosmosCards: CardItem[] = [
     brand: "Void",
     tags: ["Cosmic", "Drift"],
     gradient: "linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #000000 100%)",
+    video: "/videos/video-4.mp4",
   },
   {
     id: 105,
@@ -50,5 +54,6 @@ export const cosmosCards: CardItem[] = [
     brand: "Void",
     tags: ["Terminal", "Echo"],
     gradient: "linear-gradient(135deg, #312e81 0%, #1e1b4b 40%, #000000 100%)",
+    video: "/videos/video-5.mp4",
   },
 ];

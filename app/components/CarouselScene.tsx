@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useSyncExternalStore } from "react";
+import { useState, useCallback, useEffect, useRef, useSyncExternalStore } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FantasyCard from "./FantasyCard";
 import { useTheme } from "../context/ThemeContext";
@@ -56,6 +56,7 @@ export default function CarouselScene() {
 
   const [activeIndex, setActiveIndex] = useState(Math.floor(cards.length / 2));
   const [hasLoaded, setHasLoaded] = useState(false);
+  const isFirstMount = useRef(true);
   const isMobile = useSyncExternalStore(subscribeMobile, getMobileSnapshot, serverFalse);
   const reducedMotion = useSyncExternalStore(subscribeReducedMotion, getReducedMotionSnapshot, serverFalse);
 
@@ -67,7 +68,11 @@ export default function CarouselScene() {
   }
 
   useEffect(() => {
-    const timer = setTimeout(() => setHasLoaded(true), 100);
+    const timer = setTimeout(() => {
+      setHasLoaded(true);
+      // Mark first mount done after entrance animation completes
+      setTimeout(() => { isFirstMount.current = false; }, 400);
+    }, 100);
     return () => clearTimeout(timer);
   }, []);
 
@@ -116,7 +121,7 @@ export default function CarouselScene() {
               aria-roledescription="slide"
               aria-label={`Card ${index + 1} of ${cards.length}: ${card.title}`}
               tabIndex={offset === 0 ? 0 : -1}
-              initial={{ opacity: 0, y: 60 * directionSign }}
+              initial={isFirstMount.current ? { opacity: 0, y: 60 * directionSign } : false}
               animate={{
                 x: style.x,
                 y: hasLoaded ? style.y : style.y + 60 * directionSign,
@@ -125,7 +130,7 @@ export default function CarouselScene() {
                 rotate: style.rotate,
                 filter: `blur(${style.blur}px)`,
               }}
-              exit={{ opacity: 0, scale: 0.8 }}
+              exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.2 } }}
               transition={
                 reducedMotion
                   ? { duration: 0 }

@@ -87,7 +87,7 @@ export default function FantasyCard({ card, isActive = false, reducedMotion = fa
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           className="absolute inset-0 w-full h-full object-cover"
           animate={
             isActive && !reducedMotion
